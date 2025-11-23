@@ -1,38 +1,26 @@
 export default async function handler(req, res) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-
-  if (req.method === "OPTIONS") {
-    return res.status(200).end();
-  }
-
   const fen = req.query.fen;
 
   if (!fen) {
-    return res.status(400).json({ ok: false, error: "No FEN recibido" });
+    return res.status(400).json({ ok: false, error: "No FEN provided" });
   }
 
-  try {
-    const lichessUrl =
-      "https://lichess.org/api/cloud-eval?fen=" + encodeURIComponent(fen);
+  const url = "https://lichess.org/api/cloud-eval?fen=" + encodeURIComponent(fen);
 
-    const response = await fetch(lichessUrl);
-    const data = await response.json();
+  try {
+    const lichess = await fetch(url);
+    const data = await lichess.json();
 
     if (!data.pvs || !data.pvs[0] || !data.pvs[0].moves) {
-      return res
-        .status(500)
-        .json({ ok: false, error: "Sin respuesta válida de Lichess" });
+      return res.status(500).json({ ok: false, error: "No move from Lichess" });
     }
 
-    const bestmove = data.pvs[0].moves.split(" ")[0];
-
-    return res.json({ ok: true, bestmove });
-  } catch (err) {
-    return res.status(500).json({
-      ok: false,
-      error: "Error accediendo a Lichess: " + err.toString(),
+    return res.json({
+      ok: true,
+      bestmove: data.pvs[0].moves.split(" ")[0]
     });
+
+  } catch (err) {
+    return res.status(500).json({ ok: false, error: "Lichess error" });
   }
 }
