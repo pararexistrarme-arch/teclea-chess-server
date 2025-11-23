@@ -4,11 +4,5 @@
     "api/move.js": {
       "runtime": "nodejs20.x"
     }
-  },
-  "routes": [
-    {
-      "src": "/api/move",
-      "dest": "/api/move.js"
-    }
-  ]
+  }
 }
