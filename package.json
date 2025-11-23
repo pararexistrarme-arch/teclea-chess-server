@@ -2,8 +2,10 @@
   "name": "teclea-chess-server",
   "version": "1.0.0",
   "type": "module",
+  "scripts": {
+    "start": "node api/move.js"
+  },
   "dependencies": {
-    "express": "latest",
-    "node-fetch": "latest"
+    "chess.js": "^1.0.0"
   }
 }
