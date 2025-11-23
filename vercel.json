@@ -1,8 +1,6 @@
 {
-  "version": 2,
-  "functions": {
-    "api/move.js": {
-      "runtime": "nodejs20.x"
-    }
-  }
+  "version": 3,
+  "routes": [
+    { "src": "/api/move", "dest": "/api/move.js" }
+  ]
 }
