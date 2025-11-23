@@ -1,9 +1,14 @@
 {
   "version": 2,
-  "builds": [
-    { "src": "api.js", "use": "@vercel/node" }
-  ],
+  "functions": {
+    "api/move.js": {
+      "runtime": "nodejs20.x"
+    }
+  },
   "routes": [
-    { "src": "/move", "dest": "/api.js" }
+    {
+      "src": "/api/move",
+      "dest": "/api/move.js"
+    }
   ]
 }
